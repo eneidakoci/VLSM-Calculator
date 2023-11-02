@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styleCalc.css">
+    <title>VLSM Calculator</title>
+</head>
+<body>
+<h1>VLSM Calculator</h1> <hr>
+
+<p> Vendosni numrin e host-eve për secilën ndërtesë: </p> 
+    <h6><b>IP</b>: <big>130.16.32.0/24</big></h6>
+Ndërtesa 1:  <input type='text' class='addr' id='q1'><br>
+Ndërtesa 2:  <input type='text' class='addr' id='q2'><br>
+Ndërtesa 3:  <input type='text' class='addr' id='q3'><br>
+Ndërtesa 4:  <input type='text' class='addr' id='q4'><br>
+<button type="submit" onclick="llogarit()">Llogarit</button>
+<hr>
+<table border="1">
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Nr Host për ndërtesë</th>
+                <th>Network Mask</th>
+                <th>Network ID</th>
+                <th>Adresa Broadcast</th>
+                <th>Host-i i parë</th>
+                <th>Host-i i fundit</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td><span class=value>1</span></td>
+                <td><span class=value id=td1></span></td>
+                <td><span class=value id=netMask1></span></td>
+                <td><span class=value id=netID1>130.16.32.0</span></td>
+                <td><span class=value id=broadCast1></span></td>
+                <td><span class=value id=firstHost1>130.16.32.1</span></td>
+                <td><span class=value id=lastHost1></span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><span class=value id=td2></span></td>
+                <td><span class=value id=netMask2></span></td>
+                <td><span class=value id=netID2></span></td>
+                <td><span class=value id=broadCast2></span></td>
+                <td><span class=value id=firstHost2></span></td>
+                <td><span class=value id=lastHost2></span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><span class=value id=td3></span></td>
+                <td><span class=value id=netMask3></span></td>
+                <td><span class=value id=netID3></span></td>
+                <td><span class=value id=broadCast3></span></td>
+                <td><span class=value id=firstHost3></span></td>
+                <td><span class=value id=lastHost3></span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><span class=value id=td4></span></td>
+                <td><span class=value id=netMask4></span></td>
+                <td><span class=value id=netID4></span></td>
+                <td><span class=value id=broadCast4></span></td>
+                <td><span class=value id=firstHost4></span></td>
+                <td><span class=value id=lastHost4></span></td>
+            </tr>
+           
+        </tbody> 
+</table><br><hr>
+
+<script type='text/javascript'>
+    function llogarit(){
+        //marrja e 3 vlerave nga fushat e input-it
+        var q1=document.getElementById('q1').value;
+        var q2=document.getElementById('q2').value;
+        var q3=document.getElementById('q3').value;
+        var q4=document.getElementById('q4').value;
+        if(q1<1 || q2<1 || q3<1 || q4<1){
+            alert("Ju lutem vendosni vlera te sakta!");
+        }
+
+        //bejme renditjen e vlerave te inputit
+        let nums = [q1, q2, q3, q4];
+
+        nums.sort(function(a, b) {
+            return b - a;
+        });
+        h1 = nums[0];
+        h2 = nums[1];
+        h3 = nums[2];
+        h4 = nums[3];
+
+        document.getElementById('td1').innerHTML=h1;
+        document.getElementById('td2').innerHTML=h2;
+        document.getElementById('td3').innerHTML=h3;
+        document.getElementById('td4').innerHTML=h4;
+
+        function findPowerOfTwo(number) {
+            let power = 0;
+            while (number > 1) {
+                number = number / 2;
+                power++;
+            }
+            return power;
+        }
+
+            let number1 = h1;
+            let power1 = findPowerOfTwo(number1);
+            //gjejme netmaskun, nr e 1-ave
+            var netMask1 = 24 + (8-power1);//ngaqe 8 eshte max, power tregon numrin e zerove
+            document.getElementById("netMask1").innerHTML="/"+netMask1;
+
+            let number2 = h2;
+            let power2 = findPowerOfTwo(number2);
+        //gjejme netmaskun, nr e 1-ave
+        var netMask2 = 24 + (8-power2);//ngaqe 8 eshte max, power tregon numrin e zerove
+        document.getElementById("netMask2").innerHTML="/"+netMask2;
+
+        let number3 = h3;
+            let power3 = findPowerOfTwo(number3);
+        //gjejme netmaskun, nr e 1-ave
+        var netMask3 = 24 + (8-power3);//ngaqe 8 eshte max, power tregon numrin e zerove
+        document.getElementById("netMask3").innerHTML="/"+netMask3;
+
+        let number4 = h4;
+            let power4 = findPowerOfTwo(number4);
+        //gjejme netmaskun, nr e 1-ave
+        var netMask4 = 24 + (8-power4);//ngaqe 8 eshte max, power tregon numrin e zerove
+        document.getElementById("netMask4").innerHTML="/"+netMask4;
+
+        //netID e dyte
+        netID2 = Math.pow(2,power1);
+        document.getElementById('netID2').innerHTML='130.16.32.'+netID2;
+
+        //firsthost2
+        firstHost2=netID2+1;
+        document.getElementById('firstHost2').innerHTML = '130.16.32.'+firstHost2;
+
+        //broadcast1
+        broadCast1 = netID2-1;
+        document.getElementById("broadCast1").innerHTML = '130.16.32.'+broadCast1;
+
+          //lastHost1
+          lastHost1 = broadCast1-1;
+        document.getElementById("lastHost1").innerHTML = '130.16.32.'+lastHost1;
+
+        //netID3
+        netID3 = Math.pow(2,power2);
+        net2 = netID3 + netID2;
+        document.getElementById('netID3').innerHTML='130.16.32.'+net2;
+
+        //netID4
+        netID4 = Math.pow(2,power3);
+        net3 = netID4 + net2;
+        document.getElementById('netID4').innerHTML='130.16.32.'+net3;
+
+        //netid5 qe NUK do afishohet, por duhet per bID
+        netID5 = Math.pow(2,power4);
+        net4 = netID5 +net3;
+
+        //firsthost3
+        firstHost3=net2+1;
+        document.getElementById('firstHost3').innerHTML = '130.16.32.'+firstHost3;
+        //firsthost4
+        firstHost4=net3+1;
+        document.getElementById('firstHost4').innerHTML = '130.16.32.'+firstHost4;
+
+        //broadCast2
+        broadCast2 = net2-1;
+        document.getElementById("broadCast2").innerHTML = '130.16.32.'+broadCast2;
+        //broadcast3
+        broadCast3 = net3-1;
+        document.getElementById("broadCast3").innerHTML = '130.16.32.'+broadCast3;
+        //broadcast4
+        broadCast4 = net4-1;
+        document.getElementById("broadCast4").innerHTML = '130.16.32.'+broadCast4;
+
+        //lastHost2
+        lastHost2 = broadCast2-1;
+        document.getElementById("lastHost2").innerHTML = '130.16.32.'+lastHost2;
+         //lastHost3
+         lastHost3 = broadCast3-1;
+        document.getElementById("lastHost3").innerHTML = '130.16.32.'+lastHost3;
+        //lastHost4
+        lastHost4 = broadCast4-1;
+        document.getElementById("lastHost4").innerHTML = '130.16.32.'+lastHost4;
+        
+        if(netID2>255 || netID3>255 ||netID4>255 || firstHost2>255 || firstHost3>255 || firstHost4>255 || lastHost2>255 || lastHost3>255 || lastHost4>255){
+            alert("Diçka shkoi gabim! Ju lutem jepni vlera të tjera.");
+        }
+
+    }
+</script>
+</body>
+</html>
